@@ -140,7 +140,7 @@ docker run -it \
   -e POSTGRES_USER="root" \
   -e POSTGRES_PASSWORD="root" \
   -e POSTGRES_DB="ny_taxi" \
-  -v c:/Users/alexe/git/data-engineering-zoomcamp/week_1_basics_n_setup/2_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -v ${pwd}/ny_taxi_postgres_data:/var/lib/postgresql/data \
   -p 5432:5432 \
   --network=pg-network \
   --name pg-database \
@@ -165,7 +165,7 @@ docker run -it \
 Running locally
 
 ```bash
-URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+URL="https://d37ci6vzurychx.cloudfront.net/misc/taxi+_zone_lookup.csv"
 
 python ingest_data.py \
   --user=root \
@@ -173,7 +173,7 @@ python ingest_data.py \
   --host=localhost \
   --port=5432 \
   --db=ny_taxi \
-  --table_name=yellow_taxi_trips \
+  --table_name=zones \
   --url=${URL}
 ```
 

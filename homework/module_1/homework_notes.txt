@@ -1,0 +1,53 @@
+Q1. --rm is the tag with that text
+
+Q2. wheel      0.42.0
+
+Q3. 
+SELECT 
+COUNT(lpep_pickup_datetime)
+FROM ny_taxi_trips
+WHERE CAST(lpep_pickup_datetime AS DATE)=DATE('2019-09-18')
+AND CAST(lpep_dropoff_datetime AS DATE)=DATE('2019-09-18');
+
+Return: 15612
+
+Q4.
+SELECT 
+lpep_pickup_datetime
+FROM ny_taxi_trips
+WHERE trip_distance = (SELECT max(trip_distance) FROM ny_taxi_trips);
+
+2019-09-26
+
+Q5.
+SELECT 
+    z."Borough", 
+    SUM(nt.total_amount) as borough_total
+FROM 
+    ny_taxi_trips nt
+LEFT JOIN 
+    zones z ON nt."PULocationID" = z."LocationID"
+WHERE 
+    CAST(nt.lpep_pickup_datetime AS DATE) = '2019-09-18'
+GROUP BY z."Borough"
+ORDER BY borough_total DESC;
+
+"Brooklyn" "Manhattan" "Queens"
+
+Q6. 
+SELECT 
+    z."Zone", 
+     MAX(nt.tip_amount) as largest_tip_in_zone
+FROM 
+    ny_taxi_trips nt
+LEFT JOIN 
+    zones z ON nt."DOLocationID" = z."LocationID"
+WHERE 
+    CAST(nt.lpep_pickup_datetime AS DATE) >= '2019-09-01'
+AND
+	CAST(nt.lpep_pickup_datetime AS DATE) <= '2019-09-30'
+AND nt."PULocationID" = 7
+GROUP BY z."Zone"
+ORDER BY largest_tip_in_zone DESC;
+
+JFK Airport
